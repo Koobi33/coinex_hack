@@ -5,42 +5,78 @@ export const IMG_URL =
 
 export const courses = [
   {
-    id: "3",
-    title: "How to invest in crypto and buy death star?",
+    id: "1",
+    title: "Graphic Design Specialization",
     description:
-      "Wanna become dark loard but don’t have enough resourses? Check this course...",
+      "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
     difficulty: 4,
     value: 50,
     img: '/1.png',
-  },
-  {
-    difficulty: 2,
-    id: "0",
-    title: "Lightsaber mastery",
-    description: "Watch this course and earn new skills",
-    img: '/2.png',
-    value: 15,
-  },
-  {
-    difficulty: 2,
-    id: "1",
-    title: "Future crypto economy",
-    description:
-      "Learn ideas, methods, and institutions that permit crypto human society to manage risks",
-    img: '/3.png',
-    value: 20,
-  },
-  {
-    difficulty: 2,
-    id: "3",
-    title: "How to incentivize your jedi",
-    description:
-      "Human resources in Jedi Order. Their values and philosophy",
-    img: '/1.png',
-    value: 20,
+    lessons: [
+      {
+        id: 0,
+        text: 'Lesson 1. Fundamental skills needed to be a graphic designer'
+      },
+      {
+        id: 1,
+        text: 'Lesson 2. Communicating through image-making and typography'
+      },
+      {
+        id: 2,
+        text: 'Lesson 3. Complete a capstone project to add to your professional portfolio'
+      },
+      {
+        id: 3,
+        text: 'Lesson 4. Motion graphics, and editorial design'
+      },
+      {
+        id: 4,
+        text: 'Final project'
+      },
+    ],
+    aboutSpec: 'Graphic design is all around us, in a myriad of forms, both on screen and in print, yet it is always made up of images and words to create a communication goal. This four-course sequence exposes students to the fundamental skills required to make sophisticated graphic design: process, historical context, and communication through image-making and typography. The sequence is completed by a capstone project that applies the skills of each course and peer feedback in a finished branding project suitable for a professional portfolio. The goal of this specialization is to equip learners with a set of transferable formal and conceptual tools for “making and communicating” in the field of graphic design. This core skill set will equip learners for formal studies in graphic design, and a starting point for further work in interface design, motion graphics, and editorial design.',
+    toPass: [
+        {
+          id: 0,
+          text: 'Watch all lessons'
+        },
+      {
+          id: 1,
+          text: '80% success of Final project'
+        },
+    ],
+    skills: ['Visual Communication', 'Graphic Design', 'Design Theory', 'Creativity', 'Graphics', 'Color Theory', ' Adobe Indesign', 'Typography']
   },
 
 ];
+
+export const topUsers = [
+  {
+    id: 0,
+    name: 'Gorillaz Club',
+    level: '138 lvl'
+  },{
+    id: 1,
+    name: 'Ugly Cats',
+    level: '137 lvl'
+  },{
+    id: 2,
+    name: 'Crypto Zombies',
+    level: '136 lvl'
+  },{
+    id: 3,
+    name: 'Gorillaz Club',
+    level: '130 lvl'
+  },{
+    id: 4,
+    name: 'Ugly Cats',
+    level: '128 lvl'
+  },{
+    id: 5,
+    name: 'Crypto Zombies',
+    level: '124 lvl'
+  },
+]
 
 export const injected = new InjectedConnector({
   supportedChainIds: [97],
