@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(156, 202, 255, 0.4);
+}
+.link {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+.active_link {
+  font-family: 'Work Sans';
+  font-weight: 600;
+  color: #FFFFFF;
+}
+.menu {
+  display: flex;
+  gap: 48px
+}
+.right_part {
+  display: flex;
+}
+.logout {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  opacity: 0.8;
+  cursor: pointer;
+  margin-left: 116px;
+}

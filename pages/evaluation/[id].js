@@ -3,7 +3,7 @@ import styles from "./chcek.module.scss";
 import { courses } from "../../constants";
 import { notification, Rate } from "antd";
 import { useEffect, useState } from "react";
-import ReactConfetti from "react-confetti";
+// import ReactConfetti from "react-confetti";
 
 function EvaluationPage() {
   const [isCelebrate, setCelebrate] = useState(false);
@@ -46,7 +46,7 @@ function EvaluationPage() {
         <button onClick={submitProgress} className={styles.btn}>
           submit
         </button>
-        {isCelebrate && <ReactConfetti />}
+        {/*{isCelebrate && <ReactConfetti />}*/}
       </div>
     </div>
   );

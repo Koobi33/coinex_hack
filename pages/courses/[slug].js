@@ -2,15 +2,25 @@ import { useEffect, useState } from "react";
 // import { Header } from "../../components/header";
 import { useRouter } from "next/router";
 import styles from "./course-page.module.scss";
-import ReactConfetti from "react-confetti";
+// import ReactConfetti from "react-confetti";
+import cx from "class-names";
 import { useWeb3React } from "@web3-react/core";
 import {
   CONTRACT_ABI,
   CONTRACT_ADDRESS,
   courses,
   IMG_URL,
-} from "../../constants";
-import { Input, notification, Rate } from "antd";
+} from "../../constants/index";
+import {Input, notification, Rate} from "antd";
+import Image from 'next/image'
+import backBtn from '../../public/arrow_back.svg';
+import Link from 'next/link';
+import flame from '../../public/flame.svg';
+import point from '../../public/point.svg';
+import reward from '../../public/Reward.png';
+import coin from '../../public/icon_coin.svg';
+import flash from '../../public/icon_flash.svg';
+import arrowDown from '../../public/arrow_down.svg';
 
 const INFO_STATE = "INFO_STATE";
 const LEARN_STATE = "LEARN_STATE";
@@ -22,137 +32,107 @@ const CoursePage = function () {
   const { active, account, library, connector, activate, deactivate, error } =
     useWeb3React();
   const { slug } = router.query;
-  const currCourse = courses.find((item) => item.id === slug);
+  const currCourse = courses?.find((item) => item.id === slug);
   const [courseState, setCourseState] = useState(INFO_STATE);
+  const [isRegister, setIsRegister] = useState(false);
+  console.log(currCourse, active)
+
 
   return (
     <div className={styles.container}>
-      {/*<Header />*/}
-      <div className={styles.content}>
-        {!currCourse && <h1 className={styles.title}>Loading...</h1>}
-        {active && currCourse && courseState === INFO_STATE && (
-          <CourseInfo setCourseState={setCourseState} currCourse={currCourse} />
-        )}
-        {active && currCourse && courseState === LEARN_STATE && (
-          <CourseMaterials
-            setCourseState={setCourseState}
-            currCourse={currCourse}
-          />
-        )}
-        {active && currCourse && courseState === SUBMIT_STATE && (
-          <CourseForm currCourse={currCourse} />
-        )}
-      </div>
+        <Link href="/profile">
+            <a className={styles.back_btn}>
+                <Image src={backBtn} />
+                <p>Back to Courses</p>
+            </a>
+        </Link>
+        <p className={styles.title}>{currCourse?.title}</p>
+        <div className={styles.action_container}>
+            <div onClick={() => setIsRegister(true)} className={cx({[styles.register]: true, [styles.registered]: isRegister})}>
+                {isRegister ? 'Registered' : 'Register for free'}
+            </div>
+            <div className={styles.rating_container}>
+                {isRegister
+                    ? <>
+                        <p className={styles.rate}>Rating</p>
+                        <Rate defaultValue={3} character={({ index }) => <Image style={{ opacity: '0.4'}} src={flame} width={28} height={28}/>} />
+                        </>
+                    : <>
+                        <Image src={flame}/>
+                        <p className={styles.rating}>4.9</p>
+                        <p className={styles.rating_count}>1 371 ratings</p>
+                    </>
+                }
+            </div>
+        </div>
+        <div className={styles.content_container}>
+            <div className={styles.part}>
+                {!isRegister && <div className={styles.info_container}>
+                    <p className={styles.info_title}>Description</p>
+                    <p className={styles.info_desc}>{currCourse?.description}</p>
+                </div>}
+                <div className={styles.info_container}>
+                    <p className={styles.info_title}>{isRegister ? 'Program' : 'What will you learn'}</p>
+                    {currCourse?.lessons.map((item, index) => (
+                        <div key={item.id} className={styles.lesson_container}>
+                            <div className={styles.point_container}>
+                                <Image src={point} />
+                            </div>
+                            {isRegister
+                                ? <div>
+                                    <p className={cx(styles.info_desc, styles.info_margin)}>{item.text}</p>
+                                    <div className={styles.send_container}>
+                                        <div className={styles.subject_btn}>
+                                            <Image src={arrowDown} width={8} height={9} />
+                                            <p className={styles.info_desc}>Subject</p>
+                                        </div>
+                                        {index === currCourse?.lessons.length - 1 && <div className={cx(styles.subject_btn, styles.send_btn)}>
+                                            <Image style={{transform: 'rotate(180deg)'}} src={arrowDown} width={8} height={9} />
+                                            <p className={styles.info_desc}>Send my answer</p>
+                                        </div>}
+                                    </div>
+                                </div>
+                                : <p className={cx(styles.info_desc, styles.info_margin)}>{item.text}</p>}
+                        </div>
+                    ))}
+                </div>
+                {!isRegister && <div className={styles.info_container}>
+                    <p className={styles.info_title}>About specialization</p>
+                    <p className={styles.info_desc}>{currCourse?.aboutSpec}</p>
+                </div>}
+            </div>
+            <div className={styles.part}>
+                <div className={styles.right_part_container}>
+                    <p className={styles.info_title}>Reward</p>
+                    <div className={styles.reward_container}>
+                        <Image src={reward} />
+                        <p className={styles.coin_text}>+ 121</p>
+                        <Image src={coin} width={27} height={27} />
+                    </div>
+                </div>
+                {!isRegister && <div className={styles.right_part_container}>
+                    <p className={styles.info_title}>How to pass</p>
+                    {currCourse?.toPass.map(item => (
+                        <div key={item.id} className={styles.to_pass_container}>
+                            <Image src={flash} height={28} width={28} />
+                            <p className={styles.info_desc}>{item.text}</p>
+                        </div>
+                    ))}
+                </div>}
+                {!isRegister && <div className={styles.right_part_container}>
+                    <p className={styles.info_title}>Skills will you gain</p>
+                    <div className={styles.tag_container}>
+                        {currCourse?.skills.map(item => (
+                            <div key={item} className={styles.tag}>
+                                {item}
+                            </div>
+                        ))}
+                    </div>
+                </div>}
+            </div>
+        </div>
     </div>
   );
 };
 
 export default CoursePage;
-const CourseInfo = function ({ currCourse, setCourseState }) {
-  const { active, account, library, connector, activate, deactivate } =
-    useWeb3React();
-
-  async function start() {
-    const LearnContract = new library.eth.Contract(
-      CONTRACT_ABI,
-      CONTRACT_ADDRESS
-    );
-
-    await LearnContract.methods.addCourseToMyList(currCourse.id).call();
-    setCourseState(LEARN_STATE);
-  }
-
-  return (
-    <>
-      <img className={styles.img} alt={currCourse.title} src={currCourse.img} />
-      <div>
-        <div className={styles.difficulty}>
-          <p>Difficulty:</p>
-          <Rate disabled defaultValue={currCourse.difficulty} />
-          <span>+50 coins</span>
-        </div>
-      </div>
-      <h1 className={styles.title}>{currCourse.title}</h1>
-      <p className={styles.description}>{currCourse.description}</p>
-
-      <button className={styles.btn} disabled={!active} onClick={start}>
-        {active ? "Start" : "Connect wallet first"}
-      </button>
-    </>
-  );
-};
-const CourseMaterials = function ({ setCourseState, currCourse }) {
-  return (
-    <div>
-      <h1 className={styles.title}>{currCourse.title}</h1>
-      <iframe
-        width="100%"
-        height="450px"
-        src="https://www.youtube.com/embed/bfmKtxZiB6I"
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      ></iframe>
-      <p className={styles.description}>
-        Watch video materials and go ahead...
-      </p>
-      <button
-        onClick={() => setCourseState(SUBMIT_STATE)}
-        className={styles.btn}
-      >
-        Next
-      </button>
-    </div>
-  );
-};
-
-const CourseForm = function ({ currCourse }) {
-  const [isCelebrate, setCelebrate] = useState(false);
-  const [text, setText] = useState("");
-  function submitProgress() {
-    if (!isCelebrate) {
-      setCelebrate(true);
-      notification.open({
-        message: "Congratulations!",
-        description: "You have earned 50 coins!",
-      });
-      localStorage.setItem("submission", text);
-    }
-  }
-  return (
-    <>
-      {isCelebrate && (
-        <div className={styles.waiting}>Wait for evaluation...</div>
-      )}
-      {!isCelebrate && (
-        <form
-          className={styles.form}
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <h1 className={styles.title}>SUBMISSION FOR: {currCourse.title}</h1>
-          <p style={{ color: "white" }}>
-            What color of light saber real Jedy use?
-          </p>
-          <Input
-            value={text}
-            onChange={(e) => {
-              setText(e.target.value);
-            }}
-            className={styles.textarea}
-          />
-          <button
-            disabled={text.length === 0}
-            onClick={submitProgress}
-            className={styles.btn}
-          >
-            submit
-          </button>
-        </form>
-      )}
-      {isCelebrate && <ReactConfetti />}
-    </>
-  );
-};

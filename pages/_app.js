@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import { Web3ReactProvider } from "@web3-react/core";
 import Web3 from "web3";
+import DefaultLayout from "../components/defaultLayout/defaultLayout";
 
 function getLibrary(provider, connector) {
   const myProvider =
@@ -12,7 +13,9 @@ function getLibrary(provider, connector) {
 function MyApp({ Component, pageProps }) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <Component {...pageProps} />
+      <DefaultLayout>
+        <Component {...pageProps} />
+      </DefaultLayout>
     </Web3ReactProvider>
   );
 }
