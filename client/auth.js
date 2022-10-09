@@ -1,7 +1,7 @@
 class AuthClientClass {
   getNonce = async (account) => {
     const res = await fetch(`http://localhost:3000/auth/${account}/nonce`, {
-      method: "POST",
+      method: "GET",
     });
     return await res.json();
   };
