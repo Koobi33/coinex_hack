@@ -12,8 +12,8 @@ export default function Home() {
       <p className={styles.page_title}>Courses</p>
       <div className={styles.courses_container}>
         {courses?.map(course => (
-            <Link href="/courses/1">
-              <a className={styles.course_container} key={course.id}>
+            <Link href="/courses/1" key={course.id}>
+              <a className={styles.course_container}>
                 <div className={styles.rating_container}>
                     <Image src={flame}/>
                     <p className={styles.rating}>4.9</p>
