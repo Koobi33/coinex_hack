@@ -43,211 +43,179 @@ const PointSvg = () => (
     </svg>
 );
 
-const FlameIcon = (props) => <Icon component={FlameSvg} {...props} />;
-const PointIcon = (props) => <Icon component={PointSvg} {...props} />;
+export const FlameIcon = (props) => <Icon component={FlameSvg} {...props} />;
+export const PointIcon = (props) => <Icon component={PointSvg} {...props} />;
 
 const CoursePage = function () {
-  const router = useRouter();
+    const router = useRouter();
 
-  const {active, account, library, connector, activate, deactivate, error} =
-      useWeb3React();
-  const {slug} = router.query;
-  const [currCourse, setCurrCourse] = useState(null);
-  const [isRegister, setIsRegister] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-  const [activeLesson, setActiveLesson] = useState(null);
+    const {active, account, library, connector, activate, deactivate, error} =
+        useWeb3React();
+    const {slug} = router.query;
+    const [currCourse, setCurrCourse] = useState(null);
+    const [isRegister, setIsRegister] = useState(false);
+    const [userData, setUserData] = useState(null);
+    const [isLoading, setLoading] = useState(false);
+    const [activeLesson, setActiveLesson] = useState(null);
 
-  useEffect(() => {
-    // load current course
-    if (account) {
-      setLoading(true);
-      fetch(`http://localhost:3000/api/courses/${slug}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data) {
-            setCurrCourse(data);
-          }
-        })
-        .then(() => {
-          // check проходит ли пользователь текущий курс
-          fetch(`http://localhost:3000/api/users/${account}`)
-            .then((res) => res.json())
-            .then((data) => {
-              if (data) {
-                setUserData(data);
-                if (
-                  typeof data.startedCourses !== "string" &&
-                  data.startedCourses[slug]
-                ) {
-                  setIsRegister(true);
-                }
-              }
-            });
-          setLoading(false);
-        });
-    }
-  }, [account]);
-
-  const handleRegistration = async () => {
-    if (account && !isRegister) {
-      const res = await fetch(
-        `http://localhost:3000/api/users/${account}/${slug}/registration`,
-        {
-          method: "POST",
+    useEffect(() => {
+        // load current course
+        if (account) {
+            setLoading(true);
+            fetch(`http://localhost:3000/api/courses/${slug}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data) {
+                        setCurrCourse(data);
+                    }
+                })
+                .then(() => {
+                    // check проходит ли пользователь текущий курс
+                    fetch(`http://localhost:3000/api/users/${account}`)
+                        .then((res) => res.json())
+                        .then((data) => {
+                            if (data) {
+                                setUserData(data);
+                                if (
+                                    typeof data.startedCourses !== "string" &&
+                                    data.startedCourses[slug]
+                                ) {
+                                    setIsRegister(true);
+                                }
+                            }
+                        });
+                    setLoading(false);
+                });
         }
-      );
-      const regData = await res.json();
-      setIsRegister(true);
-        setActiveLesson(currCourse?.lessons[0]);
-      router.push(
-        `/courses/lesson?courseID=${slug}&${regData.startedCourses[slug].currentLesson}`
-      );
-    }
-    if (account && userData && isRegister) {
-      router.push(
-        `/courses/lesson?courseID=${slug}&lessonID=${userData.startedCourses[slug].currentLesson}`
-      );
-    }
-  };
+    }, [account]);
 
-  return (
-      <div className={styles.container}>
-        <Link href="/">
-          <a className={styles.back_btn}>
-            <Image src={backBtn}/>
-            <p>Back to Courses</p>
-          </a>
-        </Link>
-        <div className={styles.title_container}>
-          <p className={styles.title}>{currCourse?.title}</p>
-          <div
-              onClick={handleRegistration}
-              className={cx({
-                [styles.register]: true,
-                [styles.registered]: isRegister,
-              })}
-          >
-            {isRegister ? "Continue" : "Register for free"}
-          </div>
-        </div>
-        <div className={styles.action_container}>
-          <div className={styles.rating_container}>
-            {isRegister ? (
-                <>
-                  <p className={styles.rate}>Rate this course</p>
-                  <Rate defaultValue={3} character={({index}) => <FlameIcon/>}/>
-                </>
-            ) : (
-                <>
-                  <Image src={flame}/>
-                  <p className={styles.rating}>4.9</p>
-                  <p className={styles.rating_count}>1 371 ratings</p>
-                </>
-            )}
-          </div>
-        </div>
-        <div className={styles.content_container}>
-          <div className={styles.part}>
-            {!isRegister && (
-                <div className={styles.info_container}>
-                  <p className={styles.info_title}>Description</p>
-                  <p className={styles.info_desc}>{currCourse?.description}</p>
+    const handleRegistration = async () => {
+        if (account && !isRegister) {
+            const res = await fetch(
+                `http://localhost:3000/api/users/${account}/${slug}/registration`,
+                {
+                    method: "POST",
+                }
+            );
+            const regData = await res.json();
+            setIsRegister(true);
+            setActiveLesson(currCourse?.lessons[0]);
+            router.push(
+                `/courses/lesson?courseID=${slug}&${regData.startedCourses[slug].currentLesson}`
+            );
+        }
+        if (account && userData && isRegister) {
+            router.push(
+                `/courses/lesson?courseID=${slug}&lessonID=${userData.startedCourses[slug].currentLesson}`
+            );
+        }
+    };
+
+    return (
+        <div className={styles.container}>
+            <Link href="/">
+                <a className={styles.back_btn}>
+                    <Image src={backBtn}/>
+                    <p>Back to Courses</p>
+                </a>
+            </Link>
+            <div className={styles.title_container}>
+                <p className={styles.title}>{currCourse?.title}</p>
+                <div
+                    onClick={handleRegistration}
+                    className={cx({
+                        [styles.register]: true,
+                        [styles.registered]: isRegister,
+                    })}
+                >
+                    {isRegister ? "Continue" : "Register for free"}
                 </div>
-            )}
-            <div className={styles.info_container}>
-              <p className={styles.info_title}>
-                {isRegister ? "Program" : "What will you learn"}
-              </p>
-              {currCourse?.lessons.map((item, index) => (
-                  <div key={item.id} className={styles.lesson_container}>
-                    <div className={styles.point_container}>
-                      <span className={cx({
-                        [styles.active_point]: true,
-                        [styles.point]: (item.id === activeLesson?.id && isRegister) || !isRegister,
-                      })}><PointIcon/></span>
-                    </div>
-                    <div className={styles.send_container}>
-                      <p className={cx({
-                        [styles.info_desc]: true,
-                        [styles.active_desc]: (item.id === activeLesson?.id && isRegister) || !isRegister
-                      })}>{item.title}</p>
-                      {isRegister && index === currCourse?.lessons.length - 1 && (
-                          <div className={cx(styles.subject_btn, styles.send_btn)}>
-                            <Image
-                                style={{transform: "rotate(180deg)"}}
-                                src={arrowDown}
-                                width={8}
-                                height={9}
-                            />
-                            <p className={styles.info_desc}>Send my answer</p>
-                          </div>
-                      )}
-                    </div>
-                  </div>
-              ))}
             </div>
-            {!isRegister && (
-                <div className={styles.info_container}>
-                  <p className={styles.info_title}>About specialization</p>
-                  <p className={styles.info_desc}>{currCourse?.specializationDescription}</p>
+            <div className={styles.action_container}>
+                <div className={styles.rating_container}>
+                    {isRegister ? (
+                        <>
+                            <p className={styles.rate}>Rate this course</p>
+                            <Rate defaultValue={3} character={({index}) => <FlameIcon/>}/>
+                        </>
+                    ) : (
+                        <>
+                            <Image src={flame}/>
+                            <p className={styles.rating}>4.9</p>
+                            <p className={styles.rating_count}>1 371 ratings</p>
+                        </>
+                    )}
                 </div>
-            )}
-          </div>
-          <div className={styles.part}>
-            {!isRegister && (
-                <>
-                  <div className={styles.right_part_container}>
-                    <p className={styles.info_title}>Reward</p>
-                    <div className={styles.reward_container}>
-                      <Image src={reward}/>
-                      <p className={styles.coin_text}>{`+ ${currCourse?.reward?.tokens || 0}`}</p>
-                      <Image src={coin} width={27} height={27}/>
+            </div>
+            <div className={styles.content_container}>
+                <div className={styles.part}>
+                    <div className={styles.info_container}>
+                        <p className={styles.info_title}>Description</p>
+                        <p className={styles.info_desc}>{currCourse?.description}</p>
                     </div>
-                  </div>
-
-                  <div className={styles.right_part_container}>
-                    <p className={styles.info_title}>How to pass</p>
-                    {courses && courses[0]?.toPass?.map((item) => (
-                        <div key={item.id} className={styles.to_pass_container}>
-                          <Image src={flash} height={28} width={28}/>
-                          <p className={styles.info_desc}>{item.text}</p>
+                    <div className={styles.info_container}>
+                        <p className={styles.info_title}>
+                            What will you learn
+                        </p>
+                        {currCourse?.lessons.map((item, index) => (
+                            <div key={item.id} className={styles.lesson_container}>
+                                <div className={styles.point_container}>
+                                  <span className={styles.point}>
+                                      <PointIcon/>
+                                  </span>
+                                </div>
+                                    <p className={styles.info_desc}>{item.title}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className={styles.info_container}>
+                        <p className={styles.info_title}>About specialization</p>
+                        <p className={styles.info_desc}>{currCourse?.specializationDescription}</p>
+                    </div>
+                </div>
+                <div className={styles.part}>
+                    <div className={styles.right_part_container}>
+                        <p className={styles.info_title}>Reward</p>
+                        <div className={styles.reward_container}>
+                            <Image src={reward}/>
+                            <p className={styles.coin_text}>{`+ ${currCourse?.reward?.tokens || 0}`}</p>
+                            <Image src={coin} width={27} height={27}/>
                         </div>
-                    ))}
-                  </div>
-
-                  <div className={styles.right_part_container}>
-                    <p className={styles.info_title}>Skills will you gain</p>
-                    <div className={styles.tag_container}>
-                      {currCourse?.skills.map((item) => (
-                          <div key={item} className={styles.tag}>
-                            {item}
-                          </div>
-                      ))}
                     </div>
-                  </div>
-                </>
-            )}
-            {isRegister && <div className={styles.info_container}>
-              <p className={styles.info_title}>{activeLesson?.title}</p>
-              <p className={styles.info_desc}>{activeLesson?.description}</p>
-              <div className={styles.subject_btn}>
-                <Image src={arrowDown} width={8} height={9}/>
-                <p className={styles.info_desc}>Subject.pdf</p>
-              </div>
-              <div className={styles.video_container}>
-                <Image src={play}/>
-              </div>
-              <div className={styles.next_btn}
-                   onClick={() => setActiveLesson(currCourse?.lessons[currCourse?.lessons?.findIndex(item => item.id === activeLesson?.id) + 1])}>
-                <Image src={nextLess}/>
-                Next lesson
-              </div>
-            </div>}
-          </div>
+
+                    <div className={styles.right_part_container}>
+                        <p className={styles.info_title}>How to pass</p>
+                        {[
+                            {
+                                id: 0,
+                                text: "Watch all lessons",
+                            },
+                            {
+                                id: 1,
+                                text: "80% success of Final project",
+                            },
+                        ].map((item) => (
+                            <div key={item.id} className={styles.to_pass_container}>
+                                <Image src={flash} height={28} width={28}/>
+                                <p className={styles.info_desc}>{item.text}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className={styles.right_part_container}>
+                        <p className={styles.info_title}>Skills will you gain</p>
+                        <div className={styles.tag_container}>
+                            {currCourse?.skills.map((item) => (
+                                <div key={item} className={styles.tag}>
+                                    {item}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-  );
+    );
 };
 
 export default CoursePage;

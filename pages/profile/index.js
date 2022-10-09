@@ -148,7 +148,8 @@ function Profile() {
                   Project verification{" "}
                   <span className={styles.nick}>jdkjsmn</span>
                 </p>
-                <div className={styles.start_btn}>Start</div>
+                <Link href='/evaluation/1?courseID=1&id=1'>
+                  <a className={styles.start_btn}>Start</a></Link>
               </div>
               <div className={styles.eval_row}>
                 <p className={styles.verification}>

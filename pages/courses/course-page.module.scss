@@ -80,12 +80,14 @@
   display: flex;
   gap: 16px;
   margin-top: 40px;
+  align-items: flex-start;
 }
 .part {
   display: flex;
   flex-direction: column;
   width: 50%;
   gap: 20px;
+  flex: 1;
 }
 .info_container {
   display: flex;
@@ -124,11 +126,13 @@
 .lesson_container:not(:last-child) {
   margin-bottom: 20px;
 }
+.lesson_container:last-child {
+  align-items: flex-start;
+}
 .right_part_container {
   display: flex;
   flex-direction: column;
   padding: 24px 20px;
-
 }
 .right_part_container:not(:last-child) {
   border-bottom: 3px solid #232429;
@@ -217,7 +221,13 @@
   border-radius: 10px;
   height: 288px;
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 32px;
+}
+.next_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 .next_btn {
   display: flex;
@@ -233,4 +243,22 @@
   letter-spacing: -0.02em;
   align-self: flex-end;
   cursor: pointer;
+}
+.program {
+  width: 554px;
+}
+.answer_container {
+  margin: 45px 0 32px 0;
+}
+.congrats {
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  color: #7FF4D1;
+  align-self: center;
+}
+.opacity {
+  opacity: 0.5;
 }
