@@ -15,7 +15,7 @@ export default function Home() {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    // load list of available evaluations
+    // load list of available courses
     if (account) {
       setLoading(true);
       fetch(`http://localhost:3000/api/courses`)

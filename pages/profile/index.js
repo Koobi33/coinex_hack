@@ -24,8 +24,10 @@ function Profile() {
   const [isUserLoading, setUserLoading] = useState(false);
   const [tokensAmount, setTokensAmount] = useState(0);
   const [isTokensLoading, setTokensLoading] = useState(false);
-  const [evaluationsList, setEvaluationsList] = useState(null);
+  const [evaluationsList, setEvaluationsList] = useState([]);
   const [isEvaluationsLoading, setEvaluationsLoading] = useState(false);
+
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     // load profile data
@@ -36,6 +38,19 @@ function Profile() {
         .then((data) => {
           setUserData(data);
           setUserLoading(false);
+        });
+    }
+  }, [account]);
+
+  useEffect(() => {
+    // load list of available courses
+    if (account) {
+      fetch(`http://localhost:3000/api/courses`)
+        .then((res) => res.json())
+        .then((list) => {
+          if (list) {
+            setCourses(list);
+          }
         });
     }
   }, [account]);
@@ -65,7 +80,8 @@ function Profile() {
         .then((res) => res.json())
         .then((list) => {
           if (list) {
-            setEvaluationsList(list.filter((item) => item.wallet !== account));
+            console.log(list);
+            setEvaluationsList(list.filter((item) => item.user !== account));
             setEvaluationsLoading(false);
           }
         });
@@ -156,46 +172,59 @@ function Profile() {
             </div>
           </div>
           <div className={styles.info_container}>
-            <span className={styles.lvl_title}>Top users</span>
+            <span className={styles.lvl_title}>Available evaluations</span>
             <div className={styles.users_container}>
-              {topUsers?.map((user, index) => (
-                <div key={user.id} className={styles.eval_row}>
-                  <div className={styles.user_row}>
-                    <div
-                      className={cx({
-                        [styles.top_avatar_container]: true,
-                        [styles.first_border]: index === 0,
-                      })}
-                    >
-                      <Image src={avatarMin} />
-                      <p
-                        className={cx({
-                          [styles.place]: true,
-                          [styles.first_border_min]: index === 0,
-                        })}
-                      >
-                        {index + 1}
-                      </p>
-                    </div>
-                    <p
-                      className={cx({
-                        [styles.user_text]: true,
-                        [styles.first_text]: index === 0,
-                      })}
-                    >
-                      {user.name}
-                    </p>
-                  </div>
-                  <p
-                    className={cx({
-                      [styles.user_text]: true,
-                      [styles.first_text]: index === 0,
-                    })}
+              {evaluationsList.map((evaluation) => {
+                const course = courses.find(
+                  (el) => el.id === Number(evaluation.course[0])
+                );
+                console.log(course);
+                return (
+                  <Link
+                    href={`/evaluation/${evaluation.user}?courseID=${evaluation.course[0]}`}
                   >
-                    {user.level}
-                  </p>
-                </div>
-              ))}
+                    <span>{course?.title}</span>
+                  </Link>
+                );
+              })}
+              {/*{topUsers?.map((user, index) => (*/}
+              {/*  <div key={user.id} className={styles.eval_row}>*/}
+              {/*    <div className={styles.user_row}>*/}
+              {/*      <div*/}
+              {/*        className={cx({*/}
+              {/*          [styles.top_avatar_container]: true,*/}
+              {/*          [styles.first_border]: index === 0,*/}
+              {/*        })}*/}
+              {/*      >*/}
+              {/*        <Image src={avatarMin} />*/}
+              {/*        <p*/}
+              {/*          className={cx({*/}
+              {/*            [styles.place]: true,*/}
+              {/*            [styles.first_border_min]: index === 0,*/}
+              {/*          })}*/}
+              {/*        >*/}
+              {/*          {index + 1}*/}
+              {/*        </p>*/}
+              {/*      </div>*/}
+              {/*      <p*/}
+              {/*        className={cx({*/}
+              {/*          [styles.user_text]: true,*/}
+              {/*          [styles.first_text]: index === 0,*/}
+              {/*        })}*/}
+              {/*      >*/}
+              {/*        {user.name}*/}
+              {/*      </p>*/}
+              {/*    </div>*/}
+              {/*    <p*/}
+              {/*      className={cx({*/}
+              {/*        [styles.user_text]: true,*/}
+              {/*        [styles.first_text]: index === 0,*/}
+              {/*      })}*/}
+              {/*    >*/}
+              {/*      {user.level}*/}
+              {/*    </p>*/}
+              {/*  </div>*/}
+              {/*))}*/}
             </div>
           </div>
         </div>

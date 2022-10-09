@@ -30,10 +30,22 @@ const ExamPage = function () {
       `http://localhost:3000/api/users/${account}/${router.query.courseID}/submit`,
       {
         method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          submission: "text of submission",
+        }),
       }
     );
   };
-  return <div>exam page</div>;
+  return (
+    <div>
+      exam page
+      <button onClick={submitExam}>submit exam data</button>
+    </div>
+  );
 };
 
 export default ExamPage;

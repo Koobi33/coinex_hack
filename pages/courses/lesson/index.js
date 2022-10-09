@@ -10,6 +10,7 @@ const LessonPage = function () {
   const [submissionData, setSubmissionData] = useState("submission test data");
 
   const router = useRouter();
+  const lessonID = router.query.lessonID;
 
   useEffect(() => {
     // load current course
@@ -20,22 +21,22 @@ const LessonPage = function () {
         .then((data) => {
           if (data) {
             // если все уроки пройдены перенаправить на экзамен
-            if (
-              router.query.lessonID > data.lessons[data.lessons.length - 1].id
-            ) {
+            if (Number(lessonID) > data.lessons[data.lessons.length - 1].id) {
               router.push(`/courses/exam?courseID=${router.query.courseID}`);
             }
             setCurrCourse(data);
           }
         });
     }
-  }, [account]);
+  }, [account, lessonID]);
+
+  console.log(Number(router.query.lessonID));
 
   const submitLesson = () => {
     // submit lesson
     fetch(
       `http://localhost:3000/api/users/${account}/${router.query.courseID}/${
-        router.query.lessonID + 1
+        Number(router.query.lessonID) + 1
       }`,
       {
         method: "PUT",
@@ -46,12 +47,17 @@ const LessonPage = function () {
         // перенаправить на следующий
         router.push(
           `/courses/lesson?courseID=${router.query.courseID}&lessonID=${
-            router.query.lessonID + 1
+            Number(router.query.lessonID) + 1
           }`
         );
       });
   };
-  return <div>lesson page</div>;
+  return (
+    <div>
+      lesson page
+      <button onClick={submitLesson}>continue</button>
+    </div>
+  );
 };
 
 export default LessonPage;
