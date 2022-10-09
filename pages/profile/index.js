@@ -29,36 +29,48 @@ function Profile() {
 
   useEffect(() => {
     // load profile data
-    setUserLoading(true);
-    fetch(`localhost:3000/api/users/${account}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUserData(data);
-        setUserLoading(false);
-      });
-  }, []);
+    if (account) {
+      setUserLoading(true);
+      fetch(`http://localhost:3000/api/users/${account}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+          setUserLoading(false);
+        });
+    }
+  }, [account]);
 
   useEffect(() => {
     // load tokens amount
-    setTokensLoading(true);
-    fetch(`localhost:3000/api/users/${account}/token`)
-      .then((res) => res.json())
-      .then((amount) => {
-        setTokensAmount(amount);
-        setTokensLoading(false);
-      });
-  }, []);
+    if (account) {
+      setTokensLoading(true);
+      fetch(`http://localhost:3000/api/users/${account}/tokens`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((amount) => {
+          if (amount) {
+            setTokensAmount(amount);
+            setTokensLoading(false);
+          }
+        });
+    }
+  }, [account]);
 
   useEffect(() => {
     // load list of available evaluations
-    setEvaluationsLoading(true);
-    fetch(`localhost:3000/api/courses/evaluations`)
-      .then((res) => res.json())
-      .then((list) => {
-        setEvaluationsList(list.filter((item) => item.wallet !== account));
-        setEvaluationsLoading(false);
-      });
-  }, []);
+    if (account) {
+      setEvaluationsLoading(true);
+      fetch(`http://localhost:3000/api/courses/evaluations`)
+        .then((res) => res.json())
+        .then((list) => {
+          if (list) {
+            setEvaluationsList(list.filter((item) => item.wallet !== account));
+            setEvaluationsLoading(false);
+          }
+        });
+    }
+  }, [account]);
 
   return (
     <div className={styles.content}>
