@@ -77,3 +77,6 @@ time, mark, audio, video {
 a:hover {
   color: unset;
 }
+.ant-rate {
+  color: #FF9900;
+}
