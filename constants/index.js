@@ -11,75 +11,89 @@ export const courses = [
       "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
     difficulty: 4,
     value: 50,
-    img: '/1.png',
+    img: "/1.png",
     lessons: [
       {
         id: 0,
-        text: 'Lesson 1. Fundamental skills needed to be a graphic designer'
+        text: "Lesson 1. Fundamental skills needed to be a graphic designer",
       },
       {
         id: 1,
-        text: 'Lesson 2. Communicating through image-making and typography'
+        text: "Lesson 2. Communicating through image-making and typography",
       },
       {
         id: 2,
-        text: 'Lesson 3. Complete a capstone project to add to your professional portfolio'
+        text: "Lesson 3. Complete a capstone project to add to your professional portfolio",
       },
       {
         id: 3,
-        text: 'Lesson 4. Motion graphics, and editorial design'
+        text: "Lesson 4. Motion graphics, and editorial design",
       },
       {
         id: 4,
-        text: 'Final project'
+        text: "Final project",
       },
     ],
-    aboutSpec: 'Graphic design is all around us, in a myriad of forms, both on screen and in print, yet it is always made up of images and words to create a communication goal. This four-course sequence exposes students to the fundamental skills required to make sophisticated graphic design: process, historical context, and communication through image-making and typography. The sequence is completed by a capstone project that applies the skills of each course and peer feedback in a finished branding project suitable for a professional portfolio. The goal of this specialization is to equip learners with a set of transferable formal and conceptual tools for “making and communicating” in the field of graphic design. This core skill set will equip learners for formal studies in graphic design, and a starting point for further work in interface design, motion graphics, and editorial design.',
+    aboutSpec:
+      "Graphic design is all around us, in a myriad of forms, both on screen and in print, yet it is always made up of images and words to create a communication goal. This four-course sequence exposes students to the fundamental skills required to make sophisticated graphic design: process, historical context, and communication through image-making and typography. The sequence is completed by a capstone project that applies the skills of each course and peer feedback in a finished branding project suitable for a professional portfolio. The goal of this specialization is to equip learners with a set of transferable formal and conceptual tools for “making and communicating” in the field of graphic design. This core skill set will equip learners for formal studies in graphic design, and a starting point for further work in interface design, motion graphics, and editorial design.",
     toPass: [
-        {
-          id: 0,
-          text: 'Watch all lessons'
-        },
       {
-          id: 1,
-          text: '80% success of Final project'
-        },
+        id: 0,
+        text: "Watch all lessons",
+      },
+      {
+        id: 1,
+        text: "80% success of Final project",
+      },
     ],
-    skills: ['Visual Communication', 'Graphic Design', 'Design Theory', 'Creativity', 'Graphics', 'Color Theory', ' Adobe Indesign', 'Typography']
+    skills: [
+      "Visual Communication",
+      "Graphic Design",
+      "Design Theory",
+      "Creativity",
+      "Graphics",
+      "Color Theory",
+      " Adobe Indesign",
+      "Typography",
+    ],
   },
-
 ];
 
 export const topUsers = [
   {
     id: 0,
-    name: 'Gorillaz Club',
-    level: '138 lvl'
-  },{
-    id: 1,
-    name: 'Ugly Cats',
-    level: '137 lvl'
-  },{
-    id: 2,
-    name: 'Crypto Zombies',
-    level: '136 lvl'
-  },{
-    id: 3,
-    name: 'Gorillaz Club',
-    level: '130 lvl'
-  },{
-    id: 4,
-    name: 'Ugly Cats',
-    level: '128 lvl'
-  },{
-    id: 5,
-    name: 'Crypto Zombies',
-    level: '124 lvl'
+    name: "Gorillaz Club",
+    level: "138 lvl",
   },
-]
+  {
+    id: 1,
+    name: "Ugly Cats",
+    level: "137 lvl",
+  },
+  {
+    id: 2,
+    name: "Crypto Zombies",
+    level: "136 lvl",
+  },
+  {
+    id: 3,
+    name: "Gorillaz Club",
+    level: "130 lvl",
+  },
+  {
+    id: 4,
+    name: "Ugly Cats",
+    level: "128 lvl",
+  },
+  {
+    id: 5,
+    name: "Crypto Zombies",
+    level: "124 lvl",
+  },
+];
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [97],
+  supportedChainIds: [97, 53, 52],
 });
 
 export const CONTRACT_ADDRESS = "0x26c3813863242b5693397c7328D9392C175B9448";

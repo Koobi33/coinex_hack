@@ -15,25 +15,26 @@ export default function Home() {
       console.log(ex);
     }
   }
-
-  useEffect(() => {
-    if (active && account && library) {
-      signNonce().then((res) => {});
-    }
-    async function signNonce() {
-      const nonce = await AuthClient.getNonce(account);
-
-      const message = library.utils.sha3(`${nonce}`);
-      const signature = await library.eth.personal.sign(
-        message,
-        account,
-        account
-      );
-
-      const token = await AuthClient.signSignature(account, signature);
-      localStorage.setItem("token", token.token);
-    }
-  }, [active, account]);
+  //
+  // useEffect(() => {
+  //   console.log({ active, account, library });
+  //   if (active && account && library) {
+  //     signNonce().then((res) => {});
+  //   }
+  //   async function signNonce() {
+  //     const nonce = await AuthClient.getNonce(account);
+  //
+  //     const message = library.utils.sha3(`${nonce}`);
+  //     const signature = await library.eth.personal.sign(
+  //       message,
+  //       account,
+  //       account
+  //     );
+  //
+  //     const token = await AuthClient.signSignature(account, signature);
+  //     localStorage.setItem("token", token.token);
+  //   }
+  // }, [active, account, library]);
 
   async function disconnect() {
     try {
@@ -41,19 +42,6 @@ export default function Home() {
     } catch (ex) {
       console.log(ex);
     }
-  }
-
-  async function callContract() {
-    const myContract = new library.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-    const res1 = await myContract.methods.getCoursesLength().call();
-    console.log(res1);
-    const test = await myContract.methods
-      .feelCourseList()
-      .send({ from: account });
-    console.log(test);
-
-    const res = await myContract.methods.getCoursesLength().call();
-    console.log(res);
   }
 
   return (
@@ -70,7 +58,6 @@ export default function Home() {
       >
         {active ? "Disconnect" : "Connect"}
       </button>
-      <button onClick={callContract}>Call contract</button>
     </div>
   );
 }

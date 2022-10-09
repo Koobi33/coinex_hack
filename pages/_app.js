@@ -7,6 +7,7 @@ function getLibrary(provider, connector) {
   const myProvider =
     Web3.givenProvider ||
     new Web3.providers.HttpProvider("https://testnet.aurora.dev");
+  // new Web3.providers.HttpProvider("https://testnet-rpc.coinex.net");
   return new Web3(myProvider); // this will vary according to whether you use e.g. ethers or web3.js
 }
 

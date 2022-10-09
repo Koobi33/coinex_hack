@@ -1,7 +1,7 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [1313161555],
+  supportedChainIds: [1313161555, 53, 52],
 });
 
 export const CONTRACT_ADDRESS = "0x684F7B6A8a6160f78D7D214578ADD553765209D8";
