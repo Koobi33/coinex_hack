@@ -92,7 +92,7 @@ const CoursePage = function () {
                                         </div>}
                                     </div>
                                 </div>
-                                : <p className={cx(styles.info_desc, styles.info_margin)}>{item.text}</p>}
+                                : <p className={styles.info_desc}>{item.text}</p>}
                         </div>
                     ))}
                 </div>

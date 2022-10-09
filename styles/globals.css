@@ -74,3 +74,6 @@ time, mark, audio, video {
 .ant-progress-inner {
   background-color: #232429;
 }
+a:hover {
+  color: unset;
+}
