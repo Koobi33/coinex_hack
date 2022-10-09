@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styles from "./course-page.module.scss";
 import cx from "class-names";
 import { useWeb3React } from "@web3-react/core";
-import { courses } from "../../constants/index";
+import { courses } from "../../constants";
 import { Rate } from "antd";
 import Image from "next/image";
 import backBtn from "../../public/arrow_back.svg";
@@ -41,10 +41,11 @@ const CoursePage = function () {
   const { slug } = router.query;
   const [currCourse, setCurrCourse] = useState(null);
   const [isRegister, setIsRegister] = useState(false);
+  const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    // load list of available evaluations
+    // load current course
     if (account) {
       setLoading(true);
       fetch(`http://localhost:3000/api/courses/${slug}`)
@@ -52,15 +53,52 @@ const CoursePage = function () {
         .then((data) => {
           if (data) {
             setCurrCourse(data);
-            setLoading(false);
           }
+        })
+        .then(() => {
+          // check проходит ли пользователь текущий курс
+          fetch(`http://localhost:3000/api/users/${account}`)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data) {
+                setUserData(data);
+                if (
+                  typeof data.startedCourses !== "string" &&
+                  data.startedCourses[slug]
+                ) {
+                  setIsRegister(true);
+                }
+              }
+            });
+          setLoading(false);
         });
     }
   }, [account]);
 
+  const handleRegistration = async () => {
+    if (account && !isRegister) {
+      const res = await fetch(
+        `http://localhost:3000/api/users/${account}/${slug}/registration`,
+        {
+          method: "POST",
+        }
+      );
+      const regData = await res.json();
+      setIsRegister(true);
+      router.push(
+        `/courses/lesson?courseID=${slug}&${regData.startedCourses[slug].currentLesson}`
+      );
+    }
+    if (account && userData && isRegister) {
+      router.push(
+        `/courses/lesson?courseID=${slug}&lessonID=${userData.startedCourses[slug].currentLesson}`
+      );
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <Link href="/">
+      <Link href="/pages">
         <a className={styles.back_btn}>
           <Image src={backBtn} />
           <p>Back to Courses</p>
@@ -69,13 +107,13 @@ const CoursePage = function () {
       <div className={styles.title_container}>
         <p className={styles.title}>{currCourse?.title}</p>
         <div
-          onClick={() => setIsRegister(true)}
+          onClick={handleRegistration}
           className={cx({
             [styles.register]: true,
             [styles.registered]: isRegister,
           })}
         >
-          {isRegister ? "Registered" : "Register for free"}
+          {isRegister ? "Continue" : "Register for free"}
         </div>
       </div>
       <div className={styles.action_container}>
@@ -145,7 +183,9 @@ const CoursePage = function () {
           {!isRegister && (
             <div className={styles.info_container}>
               <p className={styles.info_title}>About specialization</p>
-              <p className={styles.info_desc}>{currCourse?.aboutSpec}</p>
+              <p className={styles.info_desc}>
+                {currCourse?.specializationDescription}
+              </p>
             </div>
           )}
         </div>
@@ -161,7 +201,16 @@ const CoursePage = function () {
           {!isRegister && (
             <div className={styles.right_part_container}>
               <p className={styles.info_title}>How to pass</p>
-              {currCourse?.toPass.map((item) => (
+              {[
+                {
+                  id: 0,
+                  text: "Watch all lessons",
+                },
+                {
+                  id: 1,
+                  text: "80% success of Final project",
+                },
+              ].map((item) => (
                 <div key={item.id} className={styles.to_pass_container}>
                   <Image src={flash} height={28} width={28} />
                   <p className={styles.info_desc}>{item.text}</p>
