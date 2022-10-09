@@ -11,7 +11,9 @@ export const courses = [
       "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
     difficulty: 4,
     value: 50,
-    img: "/1.png",
+    img: '/1.png',
+    grade: 'Intermediate',
+    duration: '1-3 weeks',
     lessons: [
       {
         id: 0,
@@ -57,6 +59,47 @@ export const courses = [
       "Typography",
     ],
   },
+  {
+    id: "2",
+    title: "UX Design Professional Certificate",
+    description:
+      "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
+    grade: 'Intermediate',
+    duration: '1-3 weeks',
+  },
+  {
+    id: "3",
+    title: "UI / UX Design Specialization",
+    description:
+      "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
+    grade: 'Intermediate',
+    duration: '1-3 weeks',
+  },
+  {
+    id: "4",
+    title: "Innovation Through Design: Think, Make, Break, Repeat",
+    description:
+      "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
+    grade: 'Beginner',
+    duration: '3 days',
+  },
+  {
+    id: "5",
+    title: "User Interface Design",
+    description:
+        "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
+    grade: 'Beginner',
+    duration: '3-5 month',
+  },
+  {
+    id: "6",
+    title: "Fundamentals of Graphic Design",
+    description:
+        "Make Compelling Design. Learn and apply the principles of graphic design towards a comprehensive branding project.",
+    grade: 'Beginner',
+    duration: '3-5 month',
+  },
+
 ];
 
 export const topUsers = [

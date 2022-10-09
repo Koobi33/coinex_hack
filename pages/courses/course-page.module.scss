@@ -19,7 +19,12 @@
   line-height: 40px;
   letter-spacing: -0.02em;
   color: #FFFFFF;
-  margin-bottom: 16px;
+}
+.title_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 23px;
 }
 .action_container {
   display: flex;
@@ -60,7 +65,7 @@
   line-height: 19px;
   letter-spacing: -0.02em;
   color: #FFFFFF;
-  margin: 0 16px 0;
+  margin-right: 16px;
 }
 .rating_count {
   font-family: 'Work Sans';
