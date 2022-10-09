@@ -1,5 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=Work+Sans:400,700|Inter:600&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Work+Sans:400,700|Inter:600|Roboto:400&display=swap");
 @import '~antd/dist/antd.css';
+@import '~rc-slider/assets/index.css';
 
 html,
 body {
@@ -79,4 +80,60 @@ a:hover {
 }
 .ant-rate {
   color: #FF9900;
+}
+.ant-radio-inner {
+  background-color: transparent;
+  border-color: #FFFFFF;
+  border-width: 2px;
+}
+.ant-radio-inner::after {
+  background-color: #FF9900;
+}
+.ant-radio-checked::after {
+  border: 2px solid #FF9900;
+}
+.ant-radio-checked .ant-radio-inner, .ant-radio-wrapper:hover .ant-radio, .ant-radio:hover .ant-radio-inner, .ant-radio-input:focus + .ant-radio-inner  {
+  border-color: #FF9900;
+}
+span.ant-radio + * {
+  padding-left: 34px;
+}
+.ant-radio-wrapper {
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0;
+  color: #FFFFFF;
+}
+#json_input-outer-box {
+  margin: 12px 0 24px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+.rc-slider-rail {
+  height: 3px !important;
+  background-color: #100F0F !important;
+}
+.rc-slider-track {
+  height: 3px !important;
+  background-color: #FF9900 !important;
+}
+.rc-slider-handle {
+  background-color: #FF9900 !important;
+  border: solid 2px #FF9900 !important;
+}
+.rc-slider-dot {
+  background-color: #FF9900 !important;
+  border: 2px solid #FF9900 !important;
+  cursor: pointer !important;
+}
+.rc-slider-mark-text {
+  color: #FFFFFF !important;
+  font-family: 'Work Sans';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  letter-spacing: -0.02em;
+  margin-top: 16px;
 }
