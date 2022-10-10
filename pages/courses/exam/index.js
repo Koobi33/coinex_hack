@@ -11,6 +11,7 @@ import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
 import nextLess from "../../../public/chevron.right.svg";
 import ReactConfetti from "react-confetti";
+import { notification } from "antd";
 
 const ExamPage = function () {
   const { active, account, library, connector, activate, deactivate } =
@@ -39,7 +40,8 @@ const ExamPage = function () {
                 {
                   id: data.lessons.length,
                   title: "Final exam",
-                  description: "Напишите код ERC20",
+                  description:
+                    "Write ERC20 like contract for CoinEx Smart Chain",
                 },
               ],
             };
@@ -50,7 +52,6 @@ const ExamPage = function () {
   }, [account]);
 
   const submitExam = () => {
-    console.log(jsonInputRef.current.state);
     fetch(
       `http://localhost:3000/api/users/${account}/${router.query.courseID}/submit`,
       {
@@ -64,7 +65,13 @@ const ExamPage = function () {
         }),
       }
     ).then(() => {
-      setCelebrate(true);
+      setTimeout(() => {
+        notification.open({
+          message: "Congratulations!",
+          description: `You have submitted your project! Wait for other peers to check it!`,
+        });
+        setCelebrate(true);
+      }, 1000);
     });
   };
 
@@ -131,6 +138,15 @@ const ExamPage = function () {
                 locale={locale}
                 height="516px"
                 width="100%"
+                confirmGood={false}
+                style={{
+                  warningBox: {
+                    opacity: 0,
+                  },
+                  errorMessage: {
+                    opacity: 0,
+                  },
+                }}
                 onBlur={(obj) => {
                   console.log(obj);
                   if (obj.jsObject) {

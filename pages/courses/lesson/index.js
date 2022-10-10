@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import backBtn from "../../../public/arrow_back.svg";
 import cx from "class-names";
-import { Rate } from "antd";
+import { notification } from "antd";
 import flame from "../../../public/flame.svg";
 import arrowDown from "../../../public/arrow_down.svg";
 import reward from "../../../public/Reward.png";
@@ -30,6 +30,7 @@ const LessonPage = function () {
 
   const router = useRouter();
   const lessonID = router.query.lessonID;
+  const courseID = router.query.courseID;
 
   useEffect(() => {
     // load current course
@@ -42,7 +43,7 @@ const LessonPage = function () {
           if (data) {
             // если все уроки пройдены перенаправить на экзамен
             if (Number(lessonID) > data.lessons[data.lessons.length - 1].id) {
-              router.push(`/courses/exam?courseID=${router.query.courseID}`);
+              router.push(`/courses/exam?courseID=${courseID}`);
             }
             const myData = {
               ...data,
@@ -51,7 +52,8 @@ const LessonPage = function () {
                 {
                   id: data.lessons.length,
                   title: "Final exam",
-                  description: "Напишите код ERC20",
+                  description:
+                    "Write ERC20 like contract for CoinEx Smart Chain",
                 },
               ],
             };
@@ -65,7 +67,7 @@ const LessonPage = function () {
     setLoading(true);
     // submit lesson
     fetch(
-      `http://localhost:3000/api/users/${account}/${router.query.courseID}/${
+      `http://localhost:3000/api/users/${account}/${courseID}/${
         Number(lessonID) + 1
       }`,
       {
@@ -75,6 +77,10 @@ const LessonPage = function () {
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
+        notification.open({
+          message: "Congratulations!",
+          description: `You have earned ${currCourse.lessons[lessonID].reward} coins!`,
+        });
         // перенаправить на следующий
         router.push(
           `/courses/lesson?courseID=${router.query.courseID}&lessonID=${
@@ -93,6 +99,7 @@ const LessonPage = function () {
       setAnswer(false);
     }
   }, [currCourse, lessonID]);
+  console.log(currCourse && currCourse.lessons[lessonID].question);
 
   return (
     <div className={styles.container}>
@@ -153,8 +160,9 @@ const LessonPage = function () {
                 <Image src={play} />
               </div>
               <p className={styles.info_title}>
-                Which of these adds richness and visual interest to all types of
-                design?
+                {currCourse &&
+                  currCourse.lessons[lessonID].question &&
+                  currCourse.lessons[lessonID].question.title}
               </p>
               <div
                 className={cx({
@@ -168,10 +176,18 @@ const LessonPage = function () {
                   }}
                 >
                   <Space direction="vertical">
-                    <Radio value={1}>Economy of line</Radio>
-                    <Radio value={2}>Typography</Radio>
-                    <Radio value={3}>Pattern</Radio>
-                    <Radio value={4}>Pixels</Radio>
+                    {currCourse &&
+                      currCourse.lessons[lessonID].question &&
+                      (() => {
+                        var str = currCourse.lessons[lessonID].question.answers;
+                        var replace = str
+                          .replace(/[\[\]]/g, "")
+                          .replace(/[\']/g, "");
+                        var array = replace.split(",");
+                        return array.map((item, index) => (
+                          <Radio value={index}>{item}</Radio>
+                        ));
+                      })()}
                   </Space>
                 </Radio.Group>
               </div>

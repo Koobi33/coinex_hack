@@ -9,10 +9,8 @@ import avatar3 from "../../public/avatar3.png";
 import cube from "../../public/icon_cube.svg";
 import arrowRight from "../../public/arrow_right.svg";
 import achiev1 from "../../public/achiev_1.png";
-import achiev2 from "../../public/achiev_2.png";
-import achiev3 from "../../public/achiev_3.png";
-import achiev4 from "../../public/achiev_4.png";
-import avatarMin from "../../public/avatar_mini.png";
+import reward from "../../public/Reward.png";
+
 import Image from "next/image";
 import { Progress } from "antd";
 import Link from "next/link";
@@ -166,7 +164,7 @@ function Profile() {
               <p className={styles.lvl_title}>Achievements</p>
               <Link href="/achievements">
                 <a>
-                  <Image src={arrowRight} />
+                  <Image src={reward} width={60} height={60} />
                 </a>
               </Link>
             </div>

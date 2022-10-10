@@ -76,7 +76,8 @@ const CoursePage = function () {
                 {
                   id: data.lessons.length,
                   title: "Final exam",
-                  description: "Напишите код ERC20",
+                  description:
+                    "Write ERC20 like contract for CoinEx Smart Chain",
                 },
               ],
             };

@@ -32,8 +32,7 @@ export default function Home() {
     <div className={styles.container}>
       <p className={styles.page_title}>Courses</p>
       {isLoading && <div className={styles.loading}>loading...</div>}
-      {!account && <div className={styles.loading}>Please log in</div>}
-      {!isLoading && account && (
+      {!isLoading && (
         <div className={styles.courses_container}>
           {courses?.map((course) => (
             <Link href={`/courses/${course.id}`} key={course.id}>
