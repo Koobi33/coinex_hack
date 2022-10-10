@@ -3,7 +3,9 @@ import styles from "./profile.module.scss";
 import { courses, topUsers } from "../../constants/index";
 import coin from "../../public/icon_coin.svg";
 import flash from "../../public/icon_flash.svg";
-import avatar from "../../public/pic_1.png";
+import avatar from "../../public/avatar1.png";
+import avatar2 from "../../public/avatar2.png";
+import avatar3 from "../../public/avatar3.png";
 import cube from "../../public/icon_cube.svg";
 import arrowRight from "../../public/arrow_right.svg";
 import achiev1 from "../../public/achiev_1.png";
@@ -21,13 +23,24 @@ function Profile() {
   const { active, account, library, connector, activate, deactivate } =
     useWeb3React();
   const [userData, setUserData] = useState(null);
-  const [isUserLoading, setUserLoading] = useState(false);
+  const [isUserLoading, setUserLoading] = useState(true);
   const [tokensAmount, setTokensAmount] = useState(0);
   const [isTokensLoading, setTokensLoading] = useState(false);
   const [evaluationsList, setEvaluationsList] = useState([]);
   const [isEvaluationsLoading, setEvaluationsLoading] = useState(false);
 
   const [courses, setCourses] = useState([]);
+
+  const finishedCourses = userData
+    ? Object.values(userData.startedCourses).filter(
+        (item) => item.status === "FINISHED"
+      )
+    : [];
+  const activeCourses = userData
+    ? Object.entries(userData.startedCourses)
+        .filter((item) => item[1].status === "IN_PROGRESS")
+        .map((item) => item[0])
+    : [];
 
   useEffect(() => {
     // load profile data
@@ -80,7 +93,6 @@ function Profile() {
         .then((res) => res.json())
         .then((list) => {
           if (list) {
-            console.log(list);
             setEvaluationsList(list.filter((item) => item.user !== account));
             setEvaluationsLoading(false);
           }
@@ -88,26 +100,50 @@ function Profile() {
     }
   }, [account]);
 
+  const avatarsMapping = () => {
+    if (userData) {
+      if (userData.level < 1) {
+        return avatar;
+      } else if (userData.level <= 3) {
+        return avatar2;
+      } else {
+        return avatar3;
+      }
+    }
+  };
+
   return (
     <div className={styles.content}>
       <p className={styles.page_title}>Profile</p>
       <div className={styles.avatar_level_container}>
         <div className={styles.left_container}>
           <div className={styles.avatar_container}>
-            <Image src={avatar} />
-            <span className={styles.customize}>Customize me</span>
+            {!isUserLoading && <Image src={avatarsMapping()} />}
+            {/*<span className={styles.customize}>Customize me</span>*/}
           </div>
-          <Progress strokeColor={"#7FF4D1"} percent={80} />
-          <div className={styles.lvl_container}>
-            <p className={styles.lvl_title}>
-              Lvl 19<span className={styles.lvl_percent}>80%</span>
-            </p>
-            <p className={styles.to_next_text}>208 points to next level</p>
-          </div>
+          {!isUserLoading && (
+            <Progress
+              strokeColor={"#7FF4D1"}
+              percent={
+                Number(userData.level.toFixed(2).toString().split(".")[1]) || 0
+              }
+            />
+          )}
+          {!isUserLoading && (
+            <div className={styles.lvl_container}>
+              <p className={styles.lvl_title}>
+                Lvl {Number(userData.level.toString().split(".")[0])}
+                <span className={styles.lvl_percent}>
+                  {Number(userData.level.toFixed(2).toString().split(".")[1])}%
+                </span>
+              </p>
+              {/*<p className={styles.to_next_text}>208 points to next level</p>*/}
+            </div>
+          )}
           <div className={styles.awards_container}>
             <div className={styles.award}>
               <Image src={coin} width={20} height={20} />
-              <p className={styles.award_text}>4543</p>
+              <p className={styles.award_text}>{tokensAmount}</p>
             </div>
             <div className={styles.award}>
               <Image src={cube} width={24} height={24} />
@@ -132,46 +168,52 @@ function Profile() {
               </Link>
             </div>
             <div className={styles.achiev_cards_container}>
-              <Image src={achiev1} />
-              <Image src={achiev2} />
-              <Image src={achiev3} />
-              <Image src={achiev4} />
+              {finishedCourses.map((item, index) => {
+                return <Image src={achiev1} />;
+              })}
             </div>
           </div>
         </div>
         <div className={styles.right_part}>
-          <div className={styles.info_container}>
-            <span className={styles.lvl_title}>Evaluations</span>
-            <div className={styles.eval_container}>
-              <div className={styles.eval_row}>
-                <p className={styles.verification}>
-                  Project verification{" "}
-                  <span className={styles.nick}>jdkjsmn</span>
-                </p>
-                <Link href='/evaluation/1?courseID=1&id=1'>
-                  <a className={styles.start_btn}>Start</a></Link>
-              </div>
-              <div className={styles.eval_row}>
-                <p className={styles.verification}>
-                  Project verification{" "}
-                  <span className={styles.nick}>jdkjsmn</span>
-                </p>
-                <div className={styles.start_btn}>Start</div>
-              </div>
+          {/*<div className={styles.info_container}>*/}
+          {/*  <span className={styles.lvl_title}>Evaluations</span>*/}
+          {/*  <div className={styles.eval_container}>*/}
+          {/*    <div className={styles.eval_row}>*/}
+          {/*      <p className={styles.verification}>*/}
+          {/*        Project verification{" "}*/}
+          {/*        <span className={styles.nick}>jdkjsmn</span>*/}
+          {/*      </p>*/}
+          {/*      <Link href="/evaluation/1?courseID=1&id=1">*/}
+          {/*        <a className={styles.start_btn}>Start</a>*/}
+          {/*      </Link>*/}
+          {/*    </div>*/}
+          {/*    <div className={styles.eval_row}>*/}
+          {/*      <p className={styles.verification}>*/}
+          {/*        Project verification{" "}*/}
+          {/*        <span className={styles.nick}>jdkjsmn</span>*/}
+          {/*      </p>*/}
+          {/*      <div className={styles.start_btn}>Start</div>*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
+          {activeCourses && courses && (
+            <div className={styles.info_container}>
+              <span className={styles.lvl_title}>My active courses</span>
+              {activeCourses.map((item) => {
+                return (
+                  <div className={styles.eval_row}>
+                    <p className={styles.course_title}>
+                      {courses.find((el) => el.id.toString() === item)?.title}
+                      {/*<span className={styles.course_percent}>70%</span>*/}
+                    </p>
+                    <Link href={`/courses/${item}`}>
+                      <a className={styles.continue_btn}>Continue</a>
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
-          </div>
-          <div className={styles.info_container}>
-            <span className={styles.lvl_title}>My active courses</span>
-            <div className={styles.eval_row}>
-              <p className={styles.course_title}>
-                {courses && courses[0] && courses[0]?.title}
-                <span className={styles.course_percent}>70%</span>
-              </p>
-              <Link href="/courses/1">
-                <a className={styles.continue_btn}>Continue</a>
-              </Link>
-            </div>
-          </div>
+          )}
           <div className={styles.info_container}>
             <span className={styles.lvl_title}>Available evaluations</span>
             <div className={styles.users_container}>
@@ -179,13 +221,15 @@ function Profile() {
                 const course = courses.find(
                   (el) => el.id === Number(evaluation.course[0])
                 );
-                console.log(course);
                 return (
-                  <Link
-                    href={`/evaluation/${evaluation.user}?courseID=${evaluation.course[0]}`}
-                  >
-                    <span>{course?.title}</span>
-                  </Link>
+                  <div className={styles.eval_row}>
+                    <span className={styles.course_title}>{course?.title}</span>
+                    <Link
+                      href={`/evaluation/${evaluation.user}?courseID=${evaluation.course[0]}`}
+                    >
+                      <a className={styles.continue_btn}>Start evaluation</a>
+                    </Link>
+                  </div>
                 );
               })}
               {/*{topUsers?.map((user, index) => (*/}

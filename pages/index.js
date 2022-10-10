@@ -1,5 +1,4 @@
 import styles from "../styles/Home.module.css";
-import { courses } from "../constants/index";
 import Image from "next/image";
 import flame from "../public/flame.svg";
 import cx from "class-names";
@@ -34,7 +33,7 @@ export default function Home() {
       <p className={styles.page_title}>Courses</p>
       {isLoading && <div className={styles.loading}>loading...</div>}
       {!account && <div className={styles.loading}>Please log in</div>}
-      {!isLoading && (
+      {!isLoading && account && (
         <div className={styles.courses_container}>
           {courses?.map((course) => (
             <Link href={`/courses/${course.id}`} key={course.id}>

@@ -32,190 +32,197 @@ const FlameSvg = () => (
   </svg>
 );
 const PointSvg = () => (
-    <svg
-        width="16"
-        height="21"
-        viewBox="0 0 16 21"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M2.20801 7.12988C2.20801 9.00195 3.35059 10.3027 5.53027 10.874L9.95996 12.0781C11.3662 12.4648 12.0869 13.1943 12.0869 14.2139V14.5566C10.8477 14.917 9.94238 16.0684 9.94238 17.4219C9.94238 19.0654 11.2871 20.4014 12.9395 20.4014C14.583 20.4014 15.9189 19.0654 15.9189 17.4219C15.9189 16.0684 15.0137 14.917 13.7832 14.5566V14.2139C13.7832 12.3418 12.6406 11.0498 10.4609 10.4697L6.02246 9.26562C4.63379 8.8877 3.9043 8.14941 3.9043 7.12988V6.78711C5.14355 6.42676 6.04004 5.28418 6.04004 3.92188C6.04004 2.27832 4.7041 0.942383 3.05176 0.942383C1.4082 0.942383 0.0722656 2.27832 0.0722656 3.92188C0.0722656 5.28418 0.977539 6.42676 2.20801 6.78711V7.12988Z" fill="currentColor"/>
-    </svg>
+  <svg
+    width="16"
+    height="21"
+    viewBox="0 0 16 21"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M2.20801 7.12988C2.20801 9.00195 3.35059 10.3027 5.53027 10.874L9.95996 12.0781C11.3662 12.4648 12.0869 13.1943 12.0869 14.2139V14.5566C10.8477 14.917 9.94238 16.0684 9.94238 17.4219C9.94238 19.0654 11.2871 20.4014 12.9395 20.4014C14.583 20.4014 15.9189 19.0654 15.9189 17.4219C15.9189 16.0684 15.0137 14.917 13.7832 14.5566V14.2139C13.7832 12.3418 12.6406 11.0498 10.4609 10.4697L6.02246 9.26562C4.63379 8.8877 3.9043 8.14941 3.9043 7.12988V6.78711C5.14355 6.42676 6.04004 5.28418 6.04004 3.92188C6.04004 2.27832 4.7041 0.942383 3.05176 0.942383C1.4082 0.942383 0.0722656 2.27832 0.0722656 3.92188C0.0722656 5.28418 0.977539 6.42676 2.20801 6.78711V7.12988Z"
+      fill="currentColor"
+    />
+  </svg>
 );
 
 export const FlameIcon = (props) => <Icon component={FlameSvg} {...props} />;
 export const PointIcon = (props) => <Icon component={PointSvg} {...props} />;
 
 const CoursePage = function () {
-    const router = useRouter();
+  const router = useRouter();
 
-    const {active, account, library, connector, activate, deactivate, error} =
-        useWeb3React();
-    const {slug} = router.query;
-    const [currCourse, setCurrCourse] = useState(null);
-    const [isRegister, setIsRegister] = useState(false);
-    const [userData, setUserData] = useState(null);
-    const [isLoading, setLoading] = useState(false);
-    const [activeLesson, setActiveLesson] = useState(null);
+  const { active, account, library, connector, activate, deactivate, error } =
+    useWeb3React();
+  const { slug } = router.query;
+  const [currCourse, setCurrCourse] = useState(null);
+  const [isRegister, setIsRegister] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+  const [activeLesson, setActiveLesson] = useState(null);
 
-    useEffect(() => {
-        // load current course
-        if (account) {
-            setLoading(true);
-            fetch(`http://localhost:3000/api/courses/${slug}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data) {
-                        setCurrCourse(data);
-                    }
-                })
-                .then(() => {
-                    // check проходит ли пользователь текущий курс
-                    fetch(`http://localhost:3000/api/users/${account}`)
-                        .then((res) => res.json())
-                        .then((data) => {
-                            if (data) {
-                                setUserData(data);
-                                if (
-                                    typeof data.startedCourses !== "string" &&
-                                    data.startedCourses[slug]
-                                ) {
-                                    setIsRegister(true);
-                                }
-                            }
-                        });
-                    setLoading(false);
-                });
-        }
-    }, [account]);
-
-    const handleRegistration = async () => {
-        if (account && !isRegister) {
-            const res = await fetch(
-                `http://localhost:3000/api/users/${account}/${slug}/registration`,
+  useEffect(() => {
+    // load current course
+    if (account) {
+      setLoading(true);
+      fetch(`http://localhost:3000/api/courses/${slug}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data) {
+            const myData = {
+              ...data,
+              lessons: [
+                ...data.lessons,
                 {
-                    method: "POST",
+                  id: data.lessons.length,
+                  title: "Final exam",
+                  description: "Напишите код ERC20",
+                },
+              ],
+            };
+            setCurrCourse(myData);
+          }
+        })
+        .then(() => {
+          // check проходит ли пользователь текущий курс
+          fetch(`http://localhost:3000/api/users/${account}`)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data) {
+                setUserData(data);
+                if (
+                  typeof data.startedCourses !== "string" &&
+                  data.startedCourses[slug]
+                ) {
+                  setIsRegister(true);
                 }
-            );
-            const regData = await res.json();
-            setIsRegister(true);
-            setActiveLesson(currCourse?.lessons[0]);
-            router.push(
-                `/courses/lesson?courseID=${slug}&${regData.startedCourses[slug].currentLesson}`
-            );
+              }
+            });
+          setLoading(false);
+        });
+    }
+  }, [account]);
+
+  const handleRegistration = async () => {
+    if (account && !isRegister) {
+      const res = await fetch(
+        `http://localhost:3000/api/users/${account}/${slug}/registration`,
+        {
+          method: "POST",
         }
-        if (account && userData && isRegister) {
-            router.push(
-                `/courses/lesson?courseID=${slug}&lessonID=${userData.startedCourses[slug].currentLesson}`
-            );
-        }
-    };
+      );
+      const regData = await res.json();
+      setIsRegister(true);
+      setActiveLesson(currCourse?.lessons[0]);
+      router.push(
+        `/courses/lesson?courseID=${slug}&lessonID=${regData.startedCourses[slug].currentLesson}`
+      );
+    }
+    if (account && userData && isRegister) {
+      router.push(
+        `/courses/lesson?courseID=${slug}&lessonID=${userData.startedCourses[slug].currentLesson}`
+      );
+    }
+  };
 
-    return (
-        <div className={styles.container}>
-            <Link href="/">
-                <a className={styles.back_btn}>
-                    <Image src={backBtn}/>
-                    <p>Back to Courses</p>
-                </a>
-            </Link>
-            <div className={styles.title_container}>
-                <p className={styles.title}>{currCourse?.title}</p>
-                <div
-                    onClick={handleRegistration}
-                    className={cx({
-                        [styles.register]: true,
-                        [styles.registered]: isRegister,
-                    })}
-                >
-                    {isRegister ? "Continue" : "Register for free"}
-                </div>
-            </div>
-            <div className={styles.action_container}>
-                <div className={styles.rating_container}>
-                    {isRegister ? (
-                        <>
-                            <p className={styles.rate}>Rate this course</p>
-                            <Rate defaultValue={3} character={({index}) => <FlameIcon/>}/>
-                        </>
-                    ) : (
-                        <>
-                            <Image src={flame}/>
-                            <p className={styles.rating}>4.9</p>
-                            <p className={styles.rating_count}>1 371 ratings</p>
-                        </>
-                    )}
-                </div>
-            </div>
-            <div className={styles.content_container}>
-                <div className={styles.part}>
-                    <div className={styles.info_container}>
-                        <p className={styles.info_title}>Description</p>
-                        <p className={styles.info_desc}>{currCourse?.description}</p>
-                    </div>
-                    <div className={styles.info_container}>
-                        <p className={styles.info_title}>
-                            What will you learn
-                        </p>
-                        {currCourse?.lessons.map((item, index) => (
-                            <div key={item.id} className={styles.lesson_container}>
-                                <div className={styles.point_container}>
-                                  <span className={styles.point}>
-                                      <PointIcon/>
-                                  </span>
-                                </div>
-                                    <p className={styles.info_desc}>{item.title}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <div className={styles.info_container}>
-                        <p className={styles.info_title}>About specialization</p>
-                        <p className={styles.info_desc}>{currCourse?.specializationDescription}</p>
-                    </div>
-                </div>
-                <div className={styles.part}>
-                    <div className={styles.right_part_container}>
-                        <p className={styles.info_title}>Reward</p>
-                        <div className={styles.reward_container}>
-                            <Image src={reward}/>
-                            <p className={styles.coin_text}>{`+ ${currCourse?.reward?.tokens || 0}`}</p>
-                            <Image src={coin} width={27} height={27}/>
-                        </div>
-                    </div>
-
-                    <div className={styles.right_part_container}>
-                        <p className={styles.info_title}>How to pass</p>
-                        {[
-                            {
-                                id: 0,
-                                text: "Watch all lessons",
-                            },
-                            {
-                                id: 1,
-                                text: "80% success of Final project",
-                            },
-                        ].map((item) => (
-                            <div key={item.id} className={styles.to_pass_container}>
-                                <Image src={flash} height={28} width={28}/>
-                                <p className={styles.info_desc}>{item.text}</p>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className={styles.right_part_container}>
-                        <p className={styles.info_title}>Skills will you gain</p>
-                        <div className={styles.tag_container}>
-                            {currCourse?.skills.map((item) => (
-                                <div key={item} className={styles.tag}>
-                                    {item}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className={styles.container}>
+      <Link href="/">
+        <a className={styles.back_btn}>
+          <Image src={backBtn} />
+          <p>Back to Courses</p>
+        </a>
+      </Link>
+      <div className={styles.title_container}>
+        <p className={styles.title}>{currCourse?.title}</p>
+        <div
+          onClick={handleRegistration}
+          className={cx({
+            [styles.register]: true,
+            [styles.registered]: isRegister,
+          })}
+        >
+          {isRegister ? "Continue" : "Register for free"}
         </div>
-    );
+      </div>
+      <div className={styles.action_container}>
+        <div className={styles.rating_container}>
+          <Image src={flame} />
+          <p className={styles.rating}>4.9</p>
+          <p className={styles.rating_count}>1 371 ratings</p>
+        </div>
+      </div>
+      <div className={styles.content_container}>
+        <div className={styles.part}>
+          <div className={styles.info_container}>
+            <p className={styles.info_title}>Description</p>
+            <p className={styles.info_desc}>{currCourse?.description}</p>
+          </div>
+          <div className={styles.info_container}>
+            <p className={styles.info_title}>What will you learn</p>
+            {currCourse?.lessons.map((item, index) => (
+              <div key={item.id} className={styles.lesson_container}>
+                <div className={styles.point_container}>
+                  <span className={styles.point}>
+                    <PointIcon />
+                  </span>
+                </div>
+                <p className={styles.info_desc}>{item.title}</p>
+              </div>
+            ))}
+          </div>
+          <div className={styles.info_container}>
+            <p className={styles.info_title}>About specialization</p>
+            <p className={styles.info_desc}>
+              {currCourse?.specializationDescription}
+            </p>
+          </div>
+        </div>
+        <div className={styles.part}>
+          <div className={styles.right_part_container}>
+            <p className={styles.info_title}>Reward</p>
+            <div className={styles.reward_container}>
+              <Image src={reward} />
+              <p className={styles.coin_text}>{`+ ${
+                currCourse?.reward?.tokens || 0
+              }`}</p>
+              <Image src={coin} width={27} height={27} />
+            </div>
+          </div>
+
+          <div className={styles.right_part_container}>
+            <p className={styles.info_title}>How to pass</p>
+            {[
+              {
+                id: 0,
+                text: "Watch all lessons",
+              },
+              {
+                id: 1,
+                text: "80% success of Final project",
+              },
+            ].map((item) => (
+              <div key={item.id} className={styles.to_pass_container}>
+                <Image src={flash} height={28} width={28} />
+                <p className={styles.info_desc}>{item.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.right_part_container}>
+            <p className={styles.info_title}>Skills will you gain</p>
+            <div className={styles.tag_container}>
+              {currCourse?.skills.map((item) => (
+                <div key={item} className={styles.tag}>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default CoursePage;
