@@ -185,7 +185,9 @@ const LessonPage = function () {
                           .replace(/[\']/g, "");
                         var array = replace.split(",");
                         return array.map((item, index) => (
-                          <Radio value={index}>{item}</Radio>
+                          <Radio key={item} value={index}>
+                            {item}
+                          </Radio>
                         ));
                       })()}
                   </Space>

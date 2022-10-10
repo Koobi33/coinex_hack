@@ -24,12 +24,13 @@ const ExamPage = function () {
   const jsonInputRef = useRef(null);
 
   const router = useRouter();
+  const courseID = router.query;
 
   useEffect(() => {
     // load current course
     if (account) {
       setLoading(true);
-      fetch(`http://45.91.8.175:3000/api/courses/${router.query.courseID}`)
+      fetch(`http://45.91.8.175:3000/api/courses/${courseID}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -49,22 +50,19 @@ const ExamPage = function () {
           }
         });
     }
-  }, [account]);
+  }, [account, courseID]);
 
   const submitExam = () => {
-    fetch(
-      `http://45.91.8.175:3000/api/users/${account}/${router.query.courseID}/submit`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          submission: submissionData,
-        }),
-      }
-    ).then(() => {
+    fetch(`http://45.91.8.175:3000/api/users/${account}/${courseID}/submit`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        submission: submissionData,
+      }),
+    }).then(() => {
       setTimeout(() => {
         notification.open({
           message: "Congratulations!",

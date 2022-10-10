@@ -116,7 +116,7 @@ function EvaluationPage() {
               </div>
               <div className={styles.info_container}>
                 <p className={styles.info_title}>
-                  Enter "_^_^_" and run the program. Does it run?
+                  Enter &quot;_^_^_&quot; and run the program. Does it run?
                 </p>
                 <div className={styles.answer_container}>
                   <Radio.Group

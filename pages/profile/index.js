@@ -170,7 +170,7 @@ function Profile() {
             </div>
             <div className={styles.achiev_cards_container}>
               {finishedCourses.map((item, index) => {
-                return <Image src={achiev1} />;
+                return <Image key={item} src={achiev1} />;
               })}
             </div>
           </div>
@@ -202,7 +202,7 @@ function Profile() {
               <span className={styles.lvl_title}>My active courses</span>
               {activeCourses.map((item) => {
                 return (
-                  <div className={styles.eval_row}>
+                  <div key={item} className={styles.eval_row}>
                     <p className={styles.course_title}>
                       {courses.find((el) => el.id.toString() === item)?.title}
                       {/*<span className={styles.course_percent}>70%</span>*/}
@@ -223,7 +223,7 @@ function Profile() {
                   (el) => el.id === Number(evaluation.course[0])
                 );
                 return (
-                  <div className={styles.eval_row}>
+                  <div key={evaluation.user} className={styles.eval_row}>
                     <span className={styles.course_title}>{course?.title}</span>
                     <Link
                       href={`/evaluation/${evaluation.user}?courseID=${evaluation.course[0]}`}

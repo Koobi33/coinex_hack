@@ -102,7 +102,7 @@ const CoursePage = function () {
           setLoading(false);
         });
     }
-  }, [account]);
+  }, [account, slug]);
 
   const handleRegistration = async () => {
     if (account && !isRegister) {
