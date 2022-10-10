@@ -38,7 +38,10 @@ function Profile() {
     : [];
   const activeCourses = userData
     ? Object.entries(userData.startedCourses)
-        .filter((item) => item[1].status === "IN_PROGRESS")
+        .filter(
+          (item) =>
+            item[1].status === "IN_PROGRESS" || item[1].status === "EVALUATION"
+        )
         .map((item) => item[0])
     : [];
 
