@@ -1,6 +1,6 @@
 class AuthClientClass {
   getNonce = async (account) => {
-    const res = await fetch(`http://localhost:3000/auth/${account}/nonce`, {
+    const res = await fetch(`http://45.91.8.175:3000/auth/${account}/nonce`, {
       method: "GET",
     });
     return await res.json();
@@ -8,7 +8,7 @@ class AuthClientClass {
 
   signSignature = async (account, signature) => {
     const tokenRes = await fetch(
-      `http://localhost:3000/auth/${account}/signature`,
+      `http://45.91.8.175:3000/auth/${account}/signature`,
       {
         method: "POST",
         body: JSON.stringify({

@@ -47,7 +47,7 @@ function Profile() {
     // load profile data
     if (account) {
       setUserLoading(true);
-      fetch(`http://localhost:3000/api/users/${account}`)
+      fetch(`http://45.91.8.175:3000/api/users/${account}`)
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
@@ -59,7 +59,7 @@ function Profile() {
   useEffect(() => {
     // load list of available courses
     if (account) {
-      fetch(`http://localhost:3000/api/courses`)
+      fetch(`http://45.91.8.175:3000/api/courses`)
         .then((res) => res.json())
         .then((list) => {
           if (list) {
@@ -73,7 +73,7 @@ function Profile() {
     // load tokens amount
     if (account) {
       setTokensLoading(true);
-      fetch(`http://localhost:3000/api/users/${account}/tokens`)
+      fetch(`http://45.91.8.175:3000/api/users/${account}/tokens`)
         .then((res) => {
           return res.json();
         })
@@ -90,7 +90,7 @@ function Profile() {
     // load list of available evaluations
     if (account) {
       setEvaluationsLoading(true);
-      fetch(`http://localhost:3000/api/courses/evaluations`)
+      fetch(`http://45.91.8.175:3000/api/courses/evaluations`)
         .then((res) => res.json())
         .then((list) => {
           if (list) {

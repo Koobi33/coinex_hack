@@ -29,7 +29,7 @@ const ExamPage = function () {
     // load current course
     if (account) {
       setLoading(true);
-      fetch(`http://localhost:3000/api/courses/${router.query.courseID}`)
+      fetch(`http://45.91.8.175:3000/api/courses/${router.query.courseID}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -53,7 +53,7 @@ const ExamPage = function () {
 
   const submitExam = () => {
     fetch(
-      `http://localhost:3000/api/users/${account}/${router.query.courseID}/submit`,
+      `http://45.91.8.175:3000/api/users/${account}/${router.query.courseID}/submit`,
       {
         method: "POST",
         headers: {
