@@ -36,7 +36,7 @@ const LessonPage = function () {
     // load current course
     if (account) {
       setLoading(true);
-      fetch(`http://45.91.8.175:3000/api/courses/${router.query.courseID}`)
+      fetch(`https://financefor.fun:3000/api/courses/${router.query.courseID}`)
         .then((res) => res.json())
         .then((data) => {
           setLoading(false);
@@ -67,7 +67,7 @@ const LessonPage = function () {
     setLoading(true);
     // submit lesson
     fetch(
-      `http://45.91.8.175:3000/api/users/${account}/${courseID}/${
+      `https://financefor.fun:3000/api/users/${account}/${courseID}/${
         Number(lessonID) + 1
       }`,
       {

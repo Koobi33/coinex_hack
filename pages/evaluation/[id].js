@@ -46,7 +46,7 @@ function EvaluationPage() {
     // load current course
     if (account && courseID) {
       setLoading(true);
-      fetch(`http://45.91.8.175:3000/api/courses/${courseID}`)
+      fetch(`https://financefor.fun:3000/api/courses/${courseID}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -61,7 +61,7 @@ function EvaluationPage() {
     // load profile data проверяЕМОГО
     if (account) {
       setUserLoading(true);
-      fetch(`http://45.91.8.175:3000/api/users/${id}`)
+      fetch(`https://financefor.fun:3000/api/users/${id}`)
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
@@ -73,7 +73,7 @@ function EvaluationPage() {
 
   const submitEvaluation = async () => {
     await fetch(
-      `http://45.91.8.175:3000/api/courses/evaluations/${account}/${id}/${courseID}`,
+      `https://financefor.fun:3000/api/courses/evaluations/${account}/${id}/${courseID}`,
       { method: "POST" }
     );
     setCelebrate(true);

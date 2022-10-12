@@ -30,7 +30,7 @@ const ExamPage = function () {
     // load current course
     if (account) {
       setLoading(true);
-      fetch(`http://45.91.8.175:3000/api/courses/${courseID}`)
+      fetch(`https://financefor.fun:3000/api/courses/${courseID}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -53,16 +53,19 @@ const ExamPage = function () {
   }, [account, courseID]);
 
   const submitExam = () => {
-    fetch(`http://45.91.8.175:3000/api/users/${account}/${courseID}/submit`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        submission: submissionData,
-      }),
-    }).then(() => {
+    fetch(
+      `https://financefor.fun:3000/api/users/${account}/${courseID}/submit`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          submission: submissionData,
+        }),
+      }
+    ).then(() => {
       setTimeout(() => {
         notification.open({
           message: "Congratulations!",

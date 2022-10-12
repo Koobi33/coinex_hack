@@ -65,7 +65,7 @@ const CoursePage = function () {
     // load current course
     if (account) {
       setLoading(true);
-      fetch(`http://45.91.8.175:3000/api/courses/${slug}`)
+      fetch(`https://financefor.fun:3000/api/courses/${slug}`)
         .then((res) => res.json())
         .then((data) => {
           if (data) {
@@ -86,7 +86,7 @@ const CoursePage = function () {
         })
         .then(() => {
           // check проходит ли пользователь текущий курс
-          fetch(`http://45.91.8.175:3000/api/users/${account}`)
+          fetch(`https://financefor.fun:3000/api/users/${account}`)
             .then((res) => res.json())
             .then((data) => {
               if (data) {
@@ -107,7 +107,7 @@ const CoursePage = function () {
   const handleRegistration = async () => {
     if (account && !isRegister) {
       const res = await fetch(
-        `http://45.91.8.175:3000/api/users/${account}/${slug}/registration`,
+        `https://financefor.fun:3000/api/users/${account}/${slug}/registration`,
         {
           method: "POST",
         }

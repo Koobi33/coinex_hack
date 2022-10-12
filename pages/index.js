@@ -17,7 +17,7 @@ export default function Home() {
     // load list of available courses
     if (account) {
       setLoading(true);
-      fetch(`http://45.91.8.175:3000/api/courses`)
+      fetch(`https://financefor.fun:3000/api/courses`)
         .then((res) => res.json())
         .then((list) => {
           if (list) {
